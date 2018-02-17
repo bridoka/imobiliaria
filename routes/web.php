@@ -12,11 +12,18 @@
 */
 
 Route::get('/', function () {
-    return view('login/login');
+    return view('auth/login');
 });
 
-Route::resource('/admin/tipoimovel', "TipoImovelController");
+#Grupo de rotas da administração do sistema
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    #Rota para cadastro de tipo de imóvel
+    Route::resource('/tipoimovel', "TipoImovelController");
+    #Rota para cadastro de imóveis (listagem, cadastro, edição e exclusão)
+    Route::resource('/imoveis', "ImoveisController")->middleware('auth');
+    #Rota para tela de importação de XML
+    Route::resource('/importacaoimoveis', "ImportacaoImovelController");
+});
+Auth::routes();
 
-Route::resource('/admin/imoveis', "ImoveisController");
 
-Route::resource('/admin/importacaoimoveis', "ImportacaoImovelController");

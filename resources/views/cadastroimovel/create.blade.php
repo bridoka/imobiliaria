@@ -11,7 +11,8 @@
         <div class="panel panel-warning">
             <div class="panel-heading">Cadastro de Imóveis</div>
             <div class="panel-body">
-                <form>
+                <form name="form" id="form">
+                    {!! csrf_field() !!}
                     <div class="form-group">
                         <div class='row'>
                             <div class="col-md-4 text-left">
