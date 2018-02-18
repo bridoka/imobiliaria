@@ -48,13 +48,13 @@
                         <div class='row'>
                             <div class="form-group col-md-4 text-left">
                                 <label for="tipoimovel_id">Tipo de Imóvel</label>
-                                <select class="form-control" name="tipoimovel_id" id="tipoimovel_id" required>
+                                <select class="form-control" name="tipoimovel" id="tipoimovel" required>
                                     <option value=""></option>
-                                    @foreach ($tiposImovel as $tipoImovel)
-                                        @if($imovel->tipoimovel_id == $tipoImovel['id'])
-                                            <option value="{{$tipoImovel['id']}}" selected>{{$tipoImovel['tipo']}}</option>
+                                    @foreach ($tiposImovel as $tipo => $tipoImovel)
+                                        @if($imovel->tipoimovel == $tipo)
+                                            <option value="{{$tipo}}" selected>{{$tipoImovel}}</option>
                                         @else
-                                            <option value="{{$tipoImovel['id']}}">{{$tipoImovel['tipo']}}</option>
+                                            <option value="{{$tipo}}">{{$tipoImovel}}</option>
                                         @endif
                                     @endforeach
                                 </select>

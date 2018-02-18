@@ -48,10 +48,10 @@
                         <div class='row'>
                             <div class="form-group col-md-4 text-left">
                                 <label for="tipoimovel_id">Tipo de Imóvel</label>
-                                <select class="form-control" name="tipoimovel_id" id="tipoimovel_id" required>
+                                <select class="form-control" name="tipoimovel" id="tipoimovel" required>
                                     <option value=""></option>
-                                    @foreach ($tiposImovel as $tipoImovel)
-                                        <option value="{{$tipoImovel['id']}}">{{$tipoImovel['tipo']}}</option>
+                                    @foreach ($tiposImovel as $tipo => $tipoImovel)
+                                        <option value="{{$tipo}}">{{$tipoImovel}}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -26,7 +26,7 @@ class ImovelRequest extends FormRequest
         return [
             "codigo" => "required|unique:imoveis|max:20",
             "titulo" => "required|max:100",
-            "tipoimovel_id" =>"required",
+            "tipoimovel" =>"required",
             "tipocontrato" => "required|max:1",
             "logradouro" => "required|max:100",
             "numero" => "required",
@@ -56,7 +56,7 @@ class ImovelRequest extends FormRequest
         return [
             "codigo" => "Código",
             "titulo" => "Título",
-            "tipoimovel_id" =>"Tipo do Imóvel",
+            "tipoimovel" =>"Tipo do Imóvel",
             "tipocontrato" => "Tipo de Contrato",
             "logradouro" => "Logradouro",
             "numero" => "Número",

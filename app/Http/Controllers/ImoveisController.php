@@ -6,12 +6,9 @@ use App\http\Models\ImovelModel;
 use App\Http\Requests\ImovelRequest;
 use App\Http\Services\ConsultaCepServices;
 use App\Http\Services\ImovelServices;
-use App\Http\Services\TipoImovelServices;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 
 class ImoveisController extends Controller
 {
@@ -40,8 +37,7 @@ class ImoveisController extends Controller
      */
     public function create()
     {
-        $tipoImovelServices = new TipoImovelServices();
-        $tiposImovel = $tipoImovelServices->getListTipoImovel();
+        $tiposImovel = \Illuminate\Support\Facades\Config::get('sistema.tiposImoveis');
         $listaEstados = \Illuminate\Support\Facades\Config::get('sistema.estados');
         $listaTiposContrato = \Illuminate\Support\Facades\Config::get('sistema.tiposContrato');
         return view('cadastroimovel/create')->with('tiposImovel',$tiposImovel)
@@ -83,10 +79,9 @@ class ImoveisController extends Controller
     {
         $imovel = ImovelModel::findOrFail($id);
         $imovelServices = new ImovelServices();
-        $tipoImovelServices = new TipoImovelServices();
-        $tiposImovel = $tipoImovelServices->getListTipoImovel();
         $listaEstados = \Illuminate\Support\Facades\Config::get('sistema.estados');
         $listaTiposContrato = \Illuminate\Support\Facades\Config::get('sistema.tiposContrato');
+        $tiposImovel= \Illuminate\Support\Facades\Config::get('sistema.tiposImoveis');
         $nomeImagem = $imovelServices->getNomeImagemDiretorio($id);
         return view('cadastroimovel/edit')->with('tiposImovel',$tiposImovel)
                                                 ->with('listaEstados',$listaEstados)
@@ -138,40 +133,8 @@ class ImoveisController extends Controller
 
     public function listaImoveis(Request $request)
     {
-        $numRegPagina = $request->length;
         $imovelServices = new ImovelServices();
-        $currentPage = $request->start + 1;
-        Paginator::currentPageResolver(function () use ($currentPage) {
-            return $currentPage;
-        });
-        $searchValue = $request->search['value'];
-        if(!empty($request->search['value'])){
-            $imoveis = ImovelModel::where("codigo","like","$searchValue%")->paginate($numRegPagina);
-        } else {
-            $imoveis = ImovelModel::paginate($numRegPagina);
-        }
-        $countImoveis = $imoveis->total();
-
-        $retorno = array();
-        $retorno['draw'] = $request->draw;
-        $retorno['recordsTotal'] = $countImoveis;
-        $retorno['recordsFiltered'] = $countImoveis;
-        $cont = 0;
-        foreach($imoveis as $imovel){
-            $retorno['data'][$cont][] = $imovel->id;
-            $retorno['data'][$cont][] = $imovel->codigo;
-            $retorno['data'][$cont][] = $imovel->titulo;
-            $retorno['data'][$cont][] = $imovel->tipoimovel_id;
-            $retorno['data'][$cont][] = $imovel->tipocontrato;
-            $retorno['data'][$cont][] = $imovel->valor;
-            $nomeImagem = $imovelServices->getNomeImagemDiretorio($imovel->id);
-            $enderecoImagem = "";
-            if($nomeImagem){
-                $enderecoImagem = asset("storage/imagens/".$imovel->id."/".$nomeImagem);
-            }
-            $retorno['data'][$cont][] = $enderecoImagem;
-            $cont++;
-        }
+        $retorno = $imovelServices->listaImoveis($request);
         return json_encode($retorno);
     }
 

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\ImportacaoImovelServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class ImportacaoImovelController extends Controller
 {
@@ -21,64 +24,14 @@ class ImportacaoImovelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function importar(Request $request)
     {
-        //
+        $importacaoImovelServices = new ImportacaoImovelServices();
+        $retistrosImportados = $importacaoImovelServices->execute($request);
+        if($retistrosImportados){
+            Session::flash('messageSuccess', 'Importado com sucesso!');
+            return Redirect::to('admin/importacaoimoveis');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -11,6 +11,7 @@ namespace App\Http\Services;
 use App\http\Models\ImovelModel;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -148,5 +149,82 @@ class ImovelServices
             Session::flash('messageWarning', 'Não foi possível excluir!');
             return false;
         }
+    }
+
+    /**
+     * getTipoImovelId
+     *
+     * Retorna a descrição do tipo de imovel de acordo com o id enviado no parâmetro.
+     * @param $id
+     * @return mixed
+     */
+    public function getTipoImovelId($id)
+    {
+        $tiposImovel = \Illuminate\Support\Facades\Config::get('sistema.tiposImoveis');
+        return $tiposImovel[$id];
+    }
+
+    /**
+     * getTipoContratoId
+     *
+     * Retorna a descrição do tipo de contrato de acordo com o id enviado no parâmetro
+     * @param $id
+     * @return mixed
+     */
+    public function getTipoContratoId($id)
+    {
+        $listaTiposContrato = \Illuminate\Support\Facades\Config::get('sistema.tiposContrato');
+        return $listaTiposContrato[$id];
+    }
+
+
+    /**
+     * Retorna o ID do Tipo de Imovel baseado na descrição
+     * @param $tipoImovel
+     * @return false|int|string
+     */
+    public function getIdTipoImovel($tipoImovel)
+    {
+        $tipoImovel = ucfirst(strtolower($tipoImovel));
+        $listaTiposImoveis = \Illuminate\Support\Facades\Config::get('sistema.tiposImoveis');
+        return array_search($tipoImovel,$listaTiposImoveis);
+    }
+
+    public function listaImoveis(Request $request)
+    {
+        $numRegPagina = $request->length;
+        $currentPage = $request->start + 1;
+        Paginator::currentPageResolver(function () use ($currentPage) {
+            return $currentPage;
+        });
+        $searchValue = $request->search['value'];
+        if(!empty($request->search['value'])){
+            $imoveis = ImovelModel::where("codigo","like","$searchValue%")->paginate($numRegPagina);
+        } else {
+            $imoveis = ImovelModel::paginate($numRegPagina);
+        }
+        $countImoveis = $imoveis->total();
+
+        $retorno = array();
+        $retorno['draw'] = $request->draw;
+        $retorno['recordsTotal'] = $countImoveis;
+        $retorno['recordsFiltered'] = $countImoveis;
+        $cont = 0;
+        foreach($imoveis as $imovel){
+            $retorno['data'][$cont][] = $imovel->id;
+            $retorno['data'][$cont][] = $imovel->codigo;
+            $retorno['data'][$cont][] = $imovel->titulo;
+            $retorno['data'][$cont][] = $this->getTipoImovelId($imovel->tipoimovel);
+            $retorno['data'][$cont][] = $this->getTipoContratoId($imovel->tipocontrato);
+            $retorno['data'][$cont][] = $imovel->valor;
+            $nomeImagem = $this->getNomeImagemDiretorio($imovel->id);
+            $enderecoImagem = "";
+            if($nomeImagem){
+                $enderecoImagem = asset("storage/imagens/".$imovel->id."/".$nomeImagem);
+            }
+            $retorno['data'][$cont][] = $enderecoImagem;
+            $cont++;
+        }
+        return $retorno;
     }
 }

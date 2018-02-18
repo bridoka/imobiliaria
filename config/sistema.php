@@ -35,5 +35,6 @@ return array(
                         'SE'=>'Sergipe',
                         'TO'=>'Tocantins'),
 
-    'tiposContrato'=> array("V" =>"Venda","A"=> "Aluguel","T"=>"Temporada")
+    'tiposContrato'=> array("V" =>"Venda","A"=> "Aluguel","T"=>"Temporada"),
+    'tiposImoveis'=> array("C"=>"Casa","A"=>"Apartamento","S"=>"Sobrado","F"=>"Fazenda","I"=>"Sítio")
 );

@@ -17,8 +17,7 @@ class CreateImoveisTable extends Migration
             $table->increments('id');
             $table->string('codigo',20)->unique()->nullable(false);
             $table->string('titulo')->nullable(false);
-            $table->integer('tipoimovel_id')->unsigned();
-            $table->foreign('tipoimovel_id')->references('id')->on('tipoimovel');
+            $table->string('tipoimovel',1)->nullable(true);
             $table->string('logradouro',100)->nullable(true);
             $table->string('cep',8)->nullable(true);
             $table->string('cidade',100)->nullable(true);
@@ -26,7 +25,7 @@ class CreateImoveisTable extends Migration
             $table->string('bairro',100)->nullable(true);
             $table->integer('numero')->nullable(true);
             $table->string('complemento',100)->nullable(true);
-            $table->float('valor', 10, 2)->nullable(true);
+            $table->float('valor', 15, 2)->nullable(true);
             $table->string('tipocontrato',1)->nullable(true);
             $table->integer('areaimovel')->nullable(true);
             $table->integer('numquartos')->nullable(true);

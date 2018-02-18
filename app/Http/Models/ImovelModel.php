@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ImovelModel extends Model
 {
     protected $table = 'imoveis';
-    protected $fillable = ["codigo","titulo","tipoimovel_id",
+    protected $fillable = ["codigo","titulo","tipoimovel",
                            "tipocontrato" , "areaimovel","valor",
                            "logradouro","numero", "complemento",
                            "cep","bairro", "cidade", "estado",
@@ -33,4 +33,16 @@ class ImovelModel extends Model
     {
         return number_format($value, 2, ',', '.');
     }
+
+    /**
+     * existeImovelCodigo
+     *
+     * Verifica se o codigo ja foi cadastrado
+     * @param $codigo
+     */
+    public function existeImovelCodigo($codigo)
+    {
+        return $this->where("codigo","like","$codigo")->count();
+    }
+
 }

@@ -3,6 +3,21 @@
 @section('title', 'Imóveis')
 
 @section('content_header')
+    @if (session('messageSuccess'))
+        <div class="alert alert-success" role="alert">{{session('messageSuccess')}}</div>
+    @endif
+    @if (session('messageWarning'))
+        <div class="alert alert-warning" role="alert">{{session('messageWarning')}}</div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <h1>Imóveis</h1>
 @stop
 

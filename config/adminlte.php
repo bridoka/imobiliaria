@@ -108,12 +108,7 @@ return [
     */
 
     'menu' => [
-        'CADASTROS',
-        [
-            'text'        => 'Tipo de Imóvel',
-            'url'         => 'admin/tipoimovel',
-            'icon'        => 'file'
-        ],
+        '',
         [
             'text'        => 'Imóveis',
             'url'         => 'admin/imoveis',
