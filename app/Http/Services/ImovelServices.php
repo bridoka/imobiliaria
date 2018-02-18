@@ -95,15 +95,17 @@ class ImovelServices
     public function uploadFoto(Request $request,$id)
     {
         $directory = "public/imagens/$id";
-        $existeDiretorio = Storage::exists("$directory");
-        if(!$existeDiretorio) {
-            #Se o diretório não existir, será criado neste momento.
-            Storage::makeDirectory($directory);
-        }
-        $foto = $request->file('imagem')->getRealPath();
-        $extensao = $request->file('imagem')->guessExtension();
-        if(in_array($extensao, array('jpeg','png','jpg'))) {
-            $request->file('imagem')->storeAs($directory, 'foto.' . $extensao);
+        if(!empty($request->file('imagem'))) {
+            $existeDiretorio = Storage::exists("$directory");
+            if (!$existeDiretorio) {
+                #Se o diretório não existir, será criado neste momento.
+                Storage::makeDirectory($directory);
+            }
+            $foto = $request->file('imagem')->getRealPath();
+            $extensao = $request->file('imagem')->guessExtension();
+            if (in_array($extensao, array('jpeg', 'png', 'jpg'))) {
+                $request->file('imagem')->storeAs($directory, 'foto.' . $extensao);
+            }
         }
     }
 

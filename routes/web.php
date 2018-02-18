@@ -19,8 +19,14 @@ Route::get('/', function () {
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     #Rota para cadastro de tipo de imóvel
     Route::resource('/tipoimovel', "TipoImovelController");
-    #Rota para cadastro de imóveis (listagem, cadastro, edição e exclusão)
+
+    #Rota para consulta de CEP
     Route::post('/imoveis/consultacep', "ImoveisController@consultaCep");
+
+    #Rota para listagem de Imoveis
+    Route::post('/imoveis/listaimoveis', "ImoveisController@listaImoveis");
+
+    #Rota para cadastro de imóveis (listagem, cadastro, edição e exclusão)
     Route::resource('/imoveis', "ImoveisController");
     #Rota para tela de importação de XML
     Route::resource('/importacaoimoveis', "ImportacaoImovelController");
