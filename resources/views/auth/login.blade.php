@@ -47,6 +47,10 @@
                     </div>
                     <!-- /.col -->
                 </div>
+                <div class="auth-links">
+                    <a href="{{ url(config('adminlte.register_url', 'register')) }}"
+                       class="text-center">Já criar novo usuário</a>
+                </div>
             </form>
         </div>
         <!-- /.login-box-body -->
