@@ -22,15 +22,15 @@
 @stop
 
 @section('content')
-    <form action="{{ route('importacaoimoveis.importar') }}" name="form" id="form" method="POST" data-toggle="validator" role="form" enctype="multipart/form-data">
+    <form action="{{ route('importacaoimoveis.importar') }}"  name="form" id="form" method="POST" data-toggle="validator" role="form" enctype="multipart/form-data">
         {!! csrf_field() !!}
         <div class="container-fluid">
             <div class="panel panel-warning">
                 <div class="panel-heading">Importação de Imóveis via Arquivo XML </div>
                 <div class="panel-body">
-                    <div class="form-group">
+                    <div class="form-group form-group-file">
                         <label for="imagem">Carregar arquivo XML</label>
-                        <input type="file" class="form-control-file" id="xml" name="xml" aria-describedby="Carregar xml">
+                        <input type="file" class="form-control-file" id="xml" name="xml" data-filetype="text/xml" aria-describedby="Carregar xml">
                     </div>
                 </div>
                 <div class="panel-footer">
@@ -48,5 +48,6 @@
     </form>
 @stop
 @section('js')
-    <script src="/js/imoveis.js" type="application/javascript"></script>
+    <script src="/js/sistema.js" type="application/javascript"></script>
+    <script src="/js/importaimoveis.js" type="application/javascript"></script>
 @stop

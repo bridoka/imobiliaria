@@ -22,5 +22,6 @@ mix.scripts([
     'vendor/bower_components/bootstrap-validator/dist/validator.js',
     'vendor/bower_components/jquery-mask-library/lib/mask.js',
     'vendor/bower_components/jquery-maskmoney/dist/jquery.maskMoney.js',
-    'public/js/util.js'
+    'public/js/util.js',
+    'public/js/loadbox.js'
 ], 'public/js/sistema.js');

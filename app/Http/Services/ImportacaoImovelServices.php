@@ -86,7 +86,9 @@ class ImportacaoImovelServices
                             #Se o diretório não existir, será criado neste momento.
                             Storage::makeDirectory($directory);
                         }
-                        copy($foto['URLArquivo'], '/storage/app/public/images/' . $id . '/file.jpeg');
+                        $dadosArq = explode(".",$foto['URLArquivo']);
+                        Storage::copy($foto['URLArquivo'],$directory. '/foto.'.$dadosArq[1]);
+                        #copy($foto['URLArquivo'], './storage/app/public/images/' . $id . '/foto.'.$dadosArq[1]);
                     }
                 }
             }
