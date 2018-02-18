@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\http\Models\ImovelModel;
+use App\Http\Requests\ImovelRequest;
+use App\Http\Services\ConsultaCepServices;
+use App\Http\Services\ImovelServices;
 use App\Http\Services\TipoImovelServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class ImoveisController extends Controller
 {
@@ -27,8 +34,10 @@ class ImoveisController extends Controller
         $tipoImovelServices = new TipoImovelServices();
         $tiposImovel = $tipoImovelServices->getListTipoImovel();
         $listaEstados = \Illuminate\Support\Facades\Config::get('sistema.estados');
+        $listaTiposContrato = \Illuminate\Support\Facades\Config::get('sistema.tiposContrato');
         return view('cadastroimovel/create')->with('tiposImovel',$tiposImovel)
-                                                  ->with('listaEstados',$listaEstados);
+                                                  ->with('listaEstados',$listaEstados)
+                                                  ->with('listaTiposContrato',$listaTiposContrato);
     }
 
     /**
@@ -37,9 +46,11 @@ class ImoveisController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ImovelRequest $request)
     {
-        //
+        $imovelServices = new ImovelServices();
+        $imovelServices->store($request);
+        return Redirect::to('admin/imoveis/create');
     }
 
     /**
@@ -61,7 +72,18 @@ class ImoveisController extends Controller
      */
     public function edit($id)
     {
-        //
+        $imovel = ImovelModel::findOrFail($id);
+        $imovelServices = new ImovelServices();
+        $tipoImovelServices = new TipoImovelServices();
+        $tiposImovel = $tipoImovelServices->getListTipoImovel();
+        $listaEstados = \Illuminate\Support\Facades\Config::get('sistema.estados');
+        $listaTiposContrato = \Illuminate\Support\Facades\Config::get('sistema.tiposContrato');
+        $nomeImagem = $imovelServices->getNomeImagemDiretorio($id);
+        return view('cadastroimovel/edit')->with('tiposImovel',$tiposImovel)
+                                                ->with('listaEstados',$listaEstados)
+                                                ->with('listaTiposContrato',$listaTiposContrato)
+                                                ->with('imovel',$imovel)
+                                                ->with('nomeImagem',$nomeImagem);
     }
 
     /**
@@ -73,7 +95,9 @@ class ImoveisController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $imovelServices = new ImovelServices();
+        $imovelServices->update($request,$id);
+        return Redirect::to('admin/imoveis/'.$id.'/edit');
     }
 
     /**
@@ -84,6 +108,23 @@ class ImoveisController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $imovelServices = new ImovelServices();
+        if($imovelServices->destroy($id)){
+            return Redirect::to('admin/imoveis');
+        }
     }
+
+    /**
+     * Consulta de CEP
+     * @param Request $request
+     * @return bool|mixed
+     */
+    public function consultaCep(Request $request)
+    {
+        $consultaCepServices = new ConsultaCepServices();
+        $consultaCepServices->setCep($request->cep);
+        $consulta = $consultaCepServices->execute();
+        return $consulta;
+    }
+
 }

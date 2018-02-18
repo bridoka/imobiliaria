@@ -1,0 +1,15 @@
+{
+  "name": "imobiliaria",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "https://github.com/bridoka/imobiliaria",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower_components",
+    "test",
+    "tests"
+  ]
+}

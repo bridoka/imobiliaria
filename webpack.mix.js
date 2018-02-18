@@ -13,3 +13,14 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
+
+mix.autoload({
+    jquery: ['$', 'window.jQuery',"jQuery","window.$","jquery","window.jquery"]
+});
+
+mix.scripts([
+    'vendor/bower_components/bootstrap-validator/dist/validator.js',
+    'vendor/bower_components/jquery-mask-library/lib/mask.js',
+    'vendor/bower_components/jquery-maskmoney/dist/jquery.maskMoney.js',
+    'public/js/util.js'
+], 'public/js/sistema.js');
