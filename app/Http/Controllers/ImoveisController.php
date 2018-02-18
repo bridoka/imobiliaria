@@ -55,7 +55,7 @@ class ImoveisController extends Controller
     {
         $imovelServices = new ImovelServices();
         $imovelServices->store($request);
-        return Redirect::to('admin/imoveis/create');
+        return Redirect::to('admin/imoveis');
     }
 
     /**
@@ -101,7 +101,7 @@ class ImoveisController extends Controller
     {
         $imovelServices = new ImovelServices();
         $imovelServices->update($request,$id);
-        return Redirect::to('admin/imoveis/'.$id.'/edit');
+        return Redirect::to('admin/imoveis');
     }
 
     /**

@@ -40,7 +40,7 @@ $(function () {
                     targets: 6,
                     render: function(data) {
                         if(data.length) {
-                            return '<img src="' + data + '" class="img-thumbnail" style="max-width: 50%;max-height: 50%" >'
+                            return '<img src="' + data + '" class="img-thumbnail" >'
                         }
                         return "";
                     }
