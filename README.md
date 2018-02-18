@@ -8,10 +8,11 @@ O menu Imóveis, dá acesso a tela onde será possível:
    basta que você clique na linha referente ao imóvel na lista de imóveis.
    * No cadastro e na edição do imóvel, ao digitar o CEP, o sistema vai
    fazer a busca na web para preenchimento dos campos de endereço. Isso ocorrerá ao tirar o foco do campo CEP.
-#Requisito do servidor para funcionamento do sistema
+<br>
+<h2>Requisito do servidor para funcionamento do sistema</h2>
 * PHP >= 7.1.3
 
-#Instalação
+<h2>Instalação</h2>
 Dentro do diretório do sistema executar os seguintes comandos:
 
 * Para baixar as dependências: <b>composer update</b>
@@ -23,7 +24,8 @@ Dentro do diretório do sistema executar os seguintes comandos:
 * Criar link simbólico da pasta storage, para que as imagens guardadas nesta pasta fiquem publicamente acessíveis. Sendo assim possível 
 a exibição na lista de imóveis e edição: <b>php artisan storage:link</b>
 
-#Dados Usuário Padrão
+<br>
+<h2>Dados Usuário Padrão</h2>
 
 Login: admin@gmail.com <br>
 Senha: secret
